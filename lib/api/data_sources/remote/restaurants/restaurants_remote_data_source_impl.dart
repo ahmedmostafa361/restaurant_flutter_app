@@ -22,4 +22,15 @@ class RestaurantsRemoteDataSourceImpl implements RestaurantsRemoteDataSource {
       throw ServerErrorException(errorMessage: message);
     }
   }
+
+  @override
+  Future<Restaurant> getRestaurantById(int id) async {
+    try {
+      var restaurantResponse = await apiServices.getRestaurantById(id);
+      return restaurantResponse.toDomain();
+    } on DioException catch (e) {
+      String message = (e.error as AppException).errorMessage;
+      throw ServerErrorException(errorMessage: message);
+    }
+  }
 }

@@ -14,4 +14,10 @@ class RestaurantsRepositoryImpl implements RestaurantsRepository {
   Future<List<Restaurant>> getRestaurants() {
     return remoteDataSource.getRestaurants();
   }
+
+  @override
+  Future<Restaurant> getRestaurantById(int id) {
+    // TODO: implement getRestaurantById
+    return remoteDataSource.getRestaurantById(id);
+  }
 }

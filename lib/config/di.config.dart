@@ -25,8 +25,11 @@ import '../data/repository/restaurants/restaurants_repository_impl.dart'
     as _i653;
 import '../domain/repository/restaurants/restaurants_repository.dart' as _i601;
 import '../domain/use_cases/get_all_restaurants_use_case.dart' as _i731;
+import '../domain/use_cases/get_restaurant_by_id_use_case.dart' as _i592;
 import '../features/ui/pages/tabs/home_screen/cubit/home_screen_view_model.dart'
     as _i5;
+import '../features/ui/pages/tabs/restaurant_details_screen/cubit/restaurant_details_view_model.dart'
+    as _i851;
 
 extension GetItInjectableX on _i174.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
@@ -43,6 +46,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i361.BaseOptions>(() => getItModule.provideBaseOptions());
     gh.singleton<_i528.PrettyDioLogger>(
       () => getItModule.providePrettyDioLogger(),
+    );
+    gh.factory<_i851.RestaurantDetailsViewModel>(
+      () => _i851.RestaurantDetailsViewModel(
+        gh<_i592.GetRestaurantByIdUseCase>(),
+      ),
     );
     gh.singleton<_i361.Dio>(
       () => getItModule.provideDio(

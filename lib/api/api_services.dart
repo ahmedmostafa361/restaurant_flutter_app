@@ -12,7 +12,9 @@ abstract class ApiServices {
     String? baseUrl,
   }) = _ApiServices;
 
-  // Moved inside the ApiServices class
   @GET(EndPoints.restaurantApi)
   Future<List<RestaurantDto>> getRestaurants();
+
+  @GET(EndPoints.restaurantByIdApi)
+  Future<RestaurantDto> getRestaurantById(@Path("id") int id);
 }
