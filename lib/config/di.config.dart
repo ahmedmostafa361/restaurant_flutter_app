@@ -16,16 +16,22 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart' as _i528;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
 
 import '../api/api_services.dart' as _i124;
+import '../api/data_sources/remote/menu/menu_remote_data_source_impl.dart'
+    as _i309;
 import '../api/data_sources/remote/restaurants/restaurants_remote_data_source_impl.dart'
     as _i459;
 import '../api/dio/dio_module.dart' as _i223;
+import '../data/data_sources/remote/menu_remote_data_source.dart' as _i880;
 import '../data/data_sources/remote/restaurants_remote_data_source.dart'
     as _i16;
+import '../data/repository/menu/menu_repository_impl.dart' as _i795;
 import '../data/repository/restaurants/restaurants_repository_impl.dart'
     as _i653;
+import '../domain/repository/menu/menu_repository.dart' as _i582;
 import '../domain/repository/restaurants/restaurants_repository.dart' as _i601;
 import '../domain/use_cases/get_all_restaurants_use_case.dart' as _i731;
 import '../domain/use_cases/get_restaurant_by_id_use_case.dart' as _i592;
+import '../domain/use_cases/get_restaurant_menu_use_case.dart' as _i563;
 import '../features/ui/pages/tabs/home_screen/cubit/home_screen_view_model.dart'
     as _i5;
 import '../features/ui/pages/tabs/restaurant_details_screen/cubit/restaurant_details_view_model.dart'
@@ -50,6 +56,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i851.RestaurantDetailsViewModel>(
       () => _i851.RestaurantDetailsViewModel(
         gh<_i592.GetRestaurantByIdUseCase>(),
+        gh<_i563.GetRestaurantMenuUseCase>(),
       ),
     );
     gh.singleton<_i361.Dio>(
@@ -64,9 +71,18 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i124.ApiServices>(
       () => getItModule.provideApiServices(gh<_i361.Dio>()),
     );
+    gh.factory<_i880.MenuRemoteDataSource>(
+      () =>
+          _i795.MenuRemoteDataSourceImpl(apiServices: gh<_i124.ApiServices>()),
+    );
     gh.factory<_i16.RestaurantsRemoteDataSource>(
       () => _i459.RestaurantsRemoteDataSourceImpl(
         apiServices: gh<_i124.ApiServices>(),
+      ),
+    );
+    gh.factory<_i582.MenuRepository>(
+      () => _i309.MenuRepositoryImpl(
+        remoteDataSource: gh<_i880.MenuRemoteDataSource>(),
       ),
     );
     gh.factory<_i601.RestaurantsRepository>(
