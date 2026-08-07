@@ -25,6 +25,7 @@ import '../api/data_sources/remote/menu/menu_remote_data_source_impl.dart'
 import '../api/data_sources/remote/restaurants/restaurants_remote_data_source_impl.dart'
     as _i459;
 import '../api/dio/dio_module.dart' as _i223;
+import '../core/cache_save_data/auth_local_storage.dart' as _i1047;
 import '../data/data_sources/remote/auth_remote_data_source.dart' as _i354;
 import '../data/data_sources/remote/items_remote_data_source.dart' as _i1062;
 import '../data/data_sources/remote/menu_remote_data_source.dart' as _i880;
@@ -35,15 +36,17 @@ import '../data/repository/menu/menu_items_repository_impl.dart' as _i590;
 import '../data/repository/menu/menu_repository_impl.dart' as _i795;
 import '../data/repository/restaurants/restaurants_repository_impl.dart'
     as _i653;
-import '../domain/repository/auth_repository.dart' as _i306;
+import '../domain/repository/auth/auth_repository.dart' as _i824;
 import '../domain/repository/menu/menu_items_repository.dart' as _i498;
 import '../domain/repository/menu/menu_repository.dart' as _i582;
 import '../domain/repository/restaurants/restaurants_repository.dart' as _i601;
 import '../domain/use_cases/get_all_restaurants_use_case.dart' as _i731;
 import '../domain/use_cases/get_restaurant_by_id_use_case.dart' as _i592;
 import '../domain/use_cases/get_restaurant_menu_use_case.dart' as _i563;
+import '../domain/use_cases/login_use_case.dart' as _i826;
 import '../domain/use_cases/register_use_case.dart' as _i772;
 import '../domain/use_cases/search_items_use_case.dart' as _i35;
+import '../features/ui/login_screen/cubit/login_view_model.dart' as _i1068;
 import '../features/ui/pages/tabs/home_screen/cubit/home_screen_view_model.dart'
     as _i5;
 import '../features/ui/pages/tabs/restaurant_details_screen/cubit/restaurant_details_view_model.dart'
@@ -68,10 +71,17 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i528.PrettyDioLogger>(
       () => getItModule.providePrettyDioLogger(),
     );
+    gh.singleton<_i1047.AuthLocalStorage>(() => _i1047.AuthLocalStorage());
     gh.factory<_i851.RestaurantDetailsViewModel>(
       () => _i851.RestaurantDetailsViewModel(
         gh<_i592.GetRestaurantByIdUseCase>(),
         gh<_i563.GetRestaurantMenuUseCase>(),
+      ),
+    );
+    gh.factory<_i1068.LoginViewModel>(
+      () => _i1068.LoginViewModel(
+        gh<_i826.LoginUseCase>(),
+        gh<_i1047.AuthLocalStorage>(),
       ),
     );
     gh.singleton<_i361.Dio>(
@@ -114,6 +124,11 @@ extension GetItInjectableX on _i174.GetIt {
         remoteDataSource: gh<_i1062.ItemsRemoteDataSource>(),
       ),
     );
+    gh.factory<_i824.AuthRepository>(
+      () => _i779.AuthRepositoryImpl(
+        remoteDataSource: gh<_i354.AuthRemoteDataSource>(),
+      ),
+    );
     gh.factory<_i582.MenuRepository>(
       () => _i309.MenuRepositoryImpl(
         remoteDataSource: gh<_i880.MenuRemoteDataSource>(),
@@ -122,11 +137,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i601.RestaurantsRepository>(
       () => _i653.RestaurantsRepositoryImpl(
         remoteDataSource: gh<_i16.RestaurantsRemoteDataSource>(),
-      ),
-    );
-    gh.factory<_i306.AuthRepository>(
-      () => _i779.AuthRepositoryImpl(
-        remoteDataSource: gh<_i354.AuthRemoteDataSource>(),
       ),
     );
     return this;

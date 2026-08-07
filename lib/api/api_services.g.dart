@@ -59,11 +59,11 @@ class _ApiServices implements ApiServices {
     final _options = _setStreamType<RestaurantDto>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        '/Restaurant/${id}',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            '/Restaurant/${id}',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
@@ -87,11 +87,11 @@ class _ApiServices implements ApiServices {
     final _options = _setStreamType<List<MenuResponseDto>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        '/Restaurant/${id}/menu',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            '/Restaurant/${id}/menu',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<List<dynamic>>(_options);
@@ -100,7 +100,7 @@ class _ApiServices implements ApiServices {
       _value = _result.data!
           .map(
             (dynamic i) => MenuResponseDto.fromJson(i as Map<String, dynamic>),
-      )
+          )
           .toList();
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
@@ -119,11 +119,11 @@ class _ApiServices implements ApiServices {
     final _options = _setStreamType<List<MenuItemDto>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        '/Restaurant/items',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            '/Restaurant/items',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<List<dynamic>>(_options);
@@ -149,17 +149,47 @@ class _ApiServices implements ApiServices {
     final _options = _setStreamType<UserResponseDto>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        '/User/register',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            '/User/register',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
     late UserResponseDto _value;
     try {
       _value = UserResponseDto.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<LoginResponseDto> login(String email, String password) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'UserEmail': email,
+      r'Password': password,
+    };
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<LoginResponseDto>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/User/getusercode',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late LoginResponseDto _value;
+    try {
+      _value = LoginResponseDto.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
       rethrow;

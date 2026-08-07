@@ -6,6 +6,7 @@ import 'package:retrofit/retrofit.dart';
 
 import 'end_points.dart';
 import 'model/request/register_request_dto.dart';
+import 'model/response/auth/user_code_login_response_dto.dart';
 import 'model/response/restaurants/restaurant_dto.dart';
 
 part 'api_services.g.dart';
@@ -33,4 +34,7 @@ abstract class ApiServices {
   @POST(EndPoints.registerRequestApi)
   Future<UserResponseDto> register(@Body() RegisterRequestDto registerRequest,);
 
+  @GET(EndPoints.loginRequestApi)
+  Future<LoginResponseDto> login(@Query("UserEmail") String email,
+      @Query("Password") String password,);
 }
