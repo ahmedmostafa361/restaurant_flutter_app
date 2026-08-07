@@ -1,8 +1,11 @@
 import 'package:dio/dio.dart';
+import 'package:restaurant_flutter_app/api/model/response/auth/user_response_dto.dart';
+import 'package:restaurant_flutter_app/api/model/response/menu/menu_item_dto.dart';
 import 'package:restaurant_flutter_app/api/model/response/menu/menu_response_dto.dart';
 import 'package:retrofit/retrofit.dart';
 
 import 'end_points.dart';
+import 'model/request/register_request_dto.dart';
 import 'model/response/restaurants/restaurant_dto.dart';
 
 part 'api_services.g.dart';
@@ -22,4 +25,12 @@ abstract class ApiServices {
   @GET(EndPoints.menuApi)
   Future<List<MenuResponseDto>> getMenu(@Path("id") int id,
       @Query("sortbyprice") String? sortByPrice,);
+
+  @GET(EndPoints.restaurantItemApi)
+  Future<List<MenuItemDto>> getRestaurantItems(
+      @Query("ItemName") String? searchByName,);
+
+  @POST(EndPoints.registerRequestApi)
+  Future<UserResponseDto> register(@Body() RegisterRequestDto registerRequest,);
+
 }
