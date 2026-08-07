@@ -3,4 +3,6 @@ class EndPoints {
   static const String restaurantApi = '/Restaurant';
   static const String restaurantByIdApi = '/Restaurant/{id}';
   static const String menuApi = '/Restaurant/{id}/menu';
+  static const String restaurantItemApi = '/Restaurant/items';
+  static const String registerRequestApi = '/User/register';
 }
