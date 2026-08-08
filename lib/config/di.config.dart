@@ -22,6 +22,8 @@ import '../api/data_sources/remote/menu/menu_items_remote_data_source_impl.dart'
     as _i984;
 import '../api/data_sources/remote/menu/menu_remote_data_source_impl.dart'
     as _i309;
+import '../api/data_sources/remote/orders/orders_remote_data_source_impl.dart'
+    as _i66;
 import '../api/data_sources/remote/restaurants/restaurants_remote_data_source_impl.dart'
     as _i459;
 import '../api/dio/dio_module.dart' as _i223;
@@ -29,24 +31,31 @@ import '../core/cache_save_data/auth_local_storage.dart' as _i1047;
 import '../data/data_sources/remote/auth_remote_data_source.dart' as _i354;
 import '../data/data_sources/remote/items_remote_data_source.dart' as _i1062;
 import '../data/data_sources/remote/menu_remote_data_source.dart' as _i880;
+import '../data/data_sources/remote/orders_remote_data_source.dart' as _i646;
 import '../data/data_sources/remote/restaurants_remote_data_source.dart'
     as _i16;
 import '../data/repository/auth/auth_repository_impl.dart' as _i779;
 import '../data/repository/menu/menu_items_repository_impl.dart' as _i590;
 import '../data/repository/menu/menu_repository_impl.dart' as _i795;
+import '../data/repository/orders/orders_repository_impl.dart' as _i402;
 import '../data/repository/restaurants/restaurants_repository_impl.dart'
     as _i653;
 import '../domain/repository/auth/auth_repository.dart' as _i824;
 import '../domain/repository/menu/menu_items_repository.dart' as _i498;
 import '../domain/repository/menu/menu_repository.dart' as _i582;
+import '../domain/repository/orders/orders_repository.dart' as _i707;
 import '../domain/repository/restaurants/restaurants_repository.dart' as _i601;
 import '../domain/use_cases/get_all_restaurants_use_case.dart' as _i731;
 import '../domain/use_cases/get_restaurant_by_id_use_case.dart' as _i592;
 import '../domain/use_cases/get_restaurant_menu_use_case.dart' as _i563;
 import '../domain/use_cases/login_use_case.dart' as _i826;
+import '../domain/use_cases/place_order_use_case.dart' as _i60;
 import '../domain/use_cases/register_use_case.dart' as _i772;
 import '../domain/use_cases/search_items_use_case.dart' as _i35;
 import '../features/ui/login_screen/cubit/login_view_model.dart' as _i1068;
+import '../features/ui/pages/cart_screen/cubit/cart_view_model.dart' as _i65;
+import '../features/ui/pages/orders_screen/cubit/orders_view_model.dart'
+    as _i612;
 import '../features/ui/pages/tabs/home_screen/cubit/home_screen_view_model.dart'
     as _i5;
 import '../features/ui/pages/tabs/restaurant_details_screen/cubit/restaurant_details_view_model.dart'
@@ -72,6 +81,7 @@ extension GetItInjectableX on _i174.GetIt {
       () => getItModule.providePrettyDioLogger(),
     );
     gh.singleton<_i1047.AuthLocalStorage>(() => _i1047.AuthLocalStorage());
+    gh.lazySingleton<_i65.CartViewModel>(() => _i65.CartViewModel());
     gh.factory<_i851.RestaurantDetailsViewModel>(
       () => _i851.RestaurantDetailsViewModel(
         gh<_i592.GetRestaurantByIdUseCase>(),
@@ -99,12 +109,23 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i5.HomeScreenViewModel>(
       () => _i5.HomeScreenViewModel(gh<_i731.GetAllRestaurantsUseCase>()),
     );
+    gh.factory<_i612.CheckoutViewModel>(
+      () => _i612.CheckoutViewModel(
+        gh<_i60.PlaceOrderUseCase>(),
+        gh<_i1047.AuthLocalStorage>(),
+      ),
+    );
     gh.singleton<_i124.ApiServices>(
       () => getItModule.provideApiServices(gh<_i361.Dio>()),
     );
     gh.factory<_i880.MenuRemoteDataSource>(
       () =>
           _i795.MenuRemoteDataSourceImpl(apiServices: gh<_i124.ApiServices>()),
+    );
+    gh.factory<_i646.OrdersRemoteDataSource>(
+      () => _i402.OrdersRemoteDataSourceImpl(
+        apiServices: gh<_i124.ApiServices>(),
+      ),
     );
     gh.factory<_i354.AuthRemoteDataSource>(
       () =>
@@ -127,6 +148,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i824.AuthRepository>(
       () => _i779.AuthRepositoryImpl(
         remoteDataSource: gh<_i354.AuthRemoteDataSource>(),
+      ),
+    );
+    gh.factory<_i707.OrdersRepository>(
+      () => _i66.OrdersRepositoryImpl(
+        remoteDataSource: gh<_i646.OrdersRemoteDataSource>(),
       ),
     );
     gh.factory<_i582.MenuRepository>(
