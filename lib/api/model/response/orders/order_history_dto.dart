@@ -1,9 +1,9 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'order_details_dto.g.dart';
+part 'order_history_dto.g.dart';
 
 @JsonSerializable()
-class OrderDetailsDto {
+class OrderDetailsHistoryDto {
   @JsonKey(name: "masterID")
   final int? masterID;
   @JsonKey(name: "userID")
@@ -15,7 +15,7 @@ class OrderDetailsDto {
   @JsonKey(name: "grandtotal")
   final double? grandTotal;
 
-  OrderDetailsDto({
+  OrderDetailsHistoryDto({
     this.masterID,
     this.userID,
     this.userCode,
@@ -23,11 +23,11 @@ class OrderDetailsDto {
     this.grandTotal,
   });
 
-  factory OrderDetailsDto.fromJson(Map<String, dynamic> json) {
-    return _$OrderDetailsDtoFromJson(json);
+  factory OrderDetailsHistoryDto.fromJson(Map<String, dynamic> json) {
+    return _$OrderDetailsHistoryDtoFromJson(json);
   }
 
   Map<String, dynamic> toJson() {
-    return _$OrderDetailsDtoToJson(this);
+    return _$OrderDetailsHistoryDtoToJson(this);
   }
 }

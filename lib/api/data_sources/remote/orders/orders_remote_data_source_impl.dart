@@ -4,7 +4,8 @@ import 'package:restaurant_flutter_app/domain/entinties/request/make_order_reque
 import '../../../../data/data_sources/remote/orders_remote_data_source.dart';
 import '../../../../domain/entinties/response/orders/master_order.dart';
 import '../../../../domain/entinties/response/orders/order_history_details.dart';
-import '../../../../domain/repository/orders/orders_history_repository.dart';
+import '../../../../domain/entinties/response/orders/oreder_details.dart';
+import '../../../../domain/repository/orders/orders_repository.dart';
 
 @Injectable(as: OrdersRepository)
 class OrdersRepositoryImpl implements OrdersRepository {
@@ -18,7 +19,12 @@ class OrdersRepositoryImpl implements OrdersRepository {
   }
 
   @override
-  Future<List<OrderDetails>> getAllOrders(String apikey) {
+  Future<List<OrderDetailsHistory>> getAllOrders(String apikey) {
     return remoteDataSource.getAllOrders(apikey);
+  }
+
+  @override
+  Future<List<OrderDetails>> getOrderDetailsById(int masterId, String apikey) {
+    return remoteDataSource.getOrderDetailsById(masterId, apikey);
   }
 }

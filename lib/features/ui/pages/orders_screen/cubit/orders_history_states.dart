@@ -7,7 +7,7 @@ class OrdersHistoryInitialState extends OrdersHistoryStates {}
 class OrdersHistoryLoadingState extends OrdersHistoryStates {}
 
 class OrdersHistorySuccessState extends OrdersHistoryStates {
-  final List<OrderDetails> orders;
+  final List<OrderDetailsHistory> orders;
 
   OrdersHistorySuccessState({required this.orders});
 }

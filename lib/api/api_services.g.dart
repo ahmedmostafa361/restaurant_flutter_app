@@ -230,28 +230,64 @@ class _ApiServices implements ApiServices {
   }
 
   @override
-  Future<List<OrderDetailsDto>> getAllOrders(String apikey) async {
+  Future<List<OrderDetailsHistoryDto>> getAllOrders(String apikey) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'apikey': apikey};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<List<OrderDetailsDto>>(
+    final _options = _setStreamType<List<OrderDetailsHistoryDto>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        '/Order',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            '/Order',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<List<dynamic>>(_options);
-    late List<OrderDetailsDto> _value;
+    late List<OrderDetailsHistoryDto> _value;
     try {
       _value = _result.data!
           .map(
-            (dynamic i) => OrderDetailsDto.fromJson(i as Map<String, dynamic>),
-      )
+            (dynamic i) =>
+                OrderDetailsHistoryDto.fromJson(i as Map<String, dynamic>),
+          )
+          .toList();
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<List<OrderDetailsResponseDto>> getAllOrdersDetailsById(
+    int masterId,
+    String apikey,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'apikey': apikey};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<List<OrderDetailsResponseDto>>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/Order/${masterId}',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<List<dynamic>>(_options);
+    late List<OrderDetailsResponseDto> _value;
+    try {
+      _value = _result.data!
+          .map(
+            (dynamic i) =>
+                OrderDetailsResponseDto.fromJson(i as Map<String, dynamic>),
+          )
           .toList();
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
