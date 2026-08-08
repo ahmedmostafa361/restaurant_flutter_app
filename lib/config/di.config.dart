@@ -43,9 +43,10 @@ import '../data/repository/restaurants/restaurants_repository_impl.dart'
 import '../domain/repository/auth/auth_repository.dart' as _i824;
 import '../domain/repository/menu/menu_items_repository.dart' as _i498;
 import '../domain/repository/menu/menu_repository.dart' as _i582;
-import '../domain/repository/orders/orders_repository.dart' as _i707;
+import '../domain/repository/orders/orders_history_repository.dart' as _i584;
 import '../domain/repository/restaurants/restaurants_repository.dart' as _i601;
 import '../domain/use_cases/get_all_restaurants_use_case.dart' as _i731;
+import '../domain/use_cases/get_orders_history_use_case.dart' as _i997;
 import '../domain/use_cases/get_restaurant_by_id_use_case.dart' as _i592;
 import '../domain/use_cases/get_restaurant_menu_use_case.dart' as _i563;
 import '../domain/use_cases/login_use_case.dart' as _i826;
@@ -54,6 +55,8 @@ import '../domain/use_cases/register_use_case.dart' as _i772;
 import '../domain/use_cases/search_items_use_case.dart' as _i35;
 import '../features/ui/login_screen/cubit/login_view_model.dart' as _i1068;
 import '../features/ui/pages/cart_screen/cubit/cart_view_model.dart' as _i65;
+import '../features/ui/pages/orders_screen/cubit/orders_history_view_model.dart'
+    as _i960;
 import '../features/ui/pages/orders_screen/cubit/orders_view_model.dart'
     as _i612;
 import '../features/ui/pages/tabs/home_screen/cubit/home_screen_view_model.dart'
@@ -86,6 +89,12 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i851.RestaurantDetailsViewModel(
         gh<_i592.GetRestaurantByIdUseCase>(),
         gh<_i563.GetRestaurantMenuUseCase>(),
+      ),
+    );
+    gh.factory<_i960.OrdersHistoryViewModel>(
+      () => _i960.OrdersHistoryViewModel(
+        gh<_i997.GetOrdersUseCase>(),
+        gh<_i1047.AuthLocalStorage>(),
       ),
     );
     gh.factory<_i1068.LoginViewModel>(
@@ -150,11 +159,6 @@ extension GetItInjectableX on _i174.GetIt {
         remoteDataSource: gh<_i354.AuthRemoteDataSource>(),
       ),
     );
-    gh.factory<_i707.OrdersRepository>(
-      () => _i66.OrdersRepositoryImpl(
-        remoteDataSource: gh<_i646.OrdersRemoteDataSource>(),
-      ),
-    );
     gh.factory<_i582.MenuRepository>(
       () => _i309.MenuRepositoryImpl(
         remoteDataSource: gh<_i880.MenuRemoteDataSource>(),
@@ -163,6 +167,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i601.RestaurantsRepository>(
       () => _i653.RestaurantsRepositoryImpl(
         remoteDataSource: gh<_i16.RestaurantsRemoteDataSource>(),
+      ),
+    );
+    gh.factory<_i584.OrdersRepository>(
+      () => _i66.OrdersRepositoryImpl(
+        remoteDataSource: gh<_i646.OrdersRemoteDataSource>(),
       ),
     );
     return this;

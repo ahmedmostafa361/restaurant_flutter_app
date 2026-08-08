@@ -1,6 +1,6 @@
 import '../entinties/request/make_order_request.dart';
 import '../entinties/response/orders/master_order.dart';
-import '../repository/orders/orders_repository.dart';
+import '../repository/orders/orders_history_repository.dart';
 
 class PlaceOrderUseCase {
   OrdersRepository ordersRepository;

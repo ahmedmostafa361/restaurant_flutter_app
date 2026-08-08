@@ -9,6 +9,7 @@ import 'model/request/make_order_request_dto.dart';
 import 'model/request/register_request_dto.dart';
 import 'model/response/auth/user_code_login_response_dto.dart';
 import 'model/response/orders/make_order_response_dto.dart';
+import 'model/response/orders/order_details_dto.dart';
 import 'model/response/restaurants/restaurant_dto.dart';
 
 part 'api_services.g.dart';
@@ -44,4 +45,8 @@ abstract class ApiServices {
   Future<MakeOrderResponseDto> makeOrder(@Path("restaurantId") int restaurantId,
       @Query("apikey") String apikey,
       @Body() MakeOrderRequestDto request,);
+
+  @GET(EndPoints.getAllOrderApi)
+  Future<List<OrderDetailsDto>> getAllOrders(@Query("apikey") String apikey);
+
 }

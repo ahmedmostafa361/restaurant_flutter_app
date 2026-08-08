@@ -2,8 +2,10 @@ import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:restaurant_flutter_app/api/api_services.dart';
 import 'package:restaurant_flutter_app/api/mappers/orders/make_order_request_mappers.dart';
+import 'package:restaurant_flutter_app/api/mappers/orders/order_history_response_mappers.dart';
 import 'package:restaurant_flutter_app/data/data_sources/remote/orders_remote_data_source.dart';
 import 'package:restaurant_flutter_app/domain/entinties/request/make_order_request.dart';
+import 'package:restaurant_flutter_app/domain/entinties/response/orders/order_history_details.dart';
 
 import '../../../api/dio/dio_exceptions/app_exceptions.dart';
 import '../../../domain/entinties/response/orders/master_order.dart';
@@ -30,4 +32,17 @@ class OrdersRemoteDataSourceImpl implements OrdersRemoteDataSource {
       throw ServerErrorException(errorMessage: message);
     }
   }
+
+  @override
+  Future<List<OrderDetails>> getAllOrders(String apikey) async {
+    try {
+      var response = await apiServices.getAllOrders(apikey);
+      return response.map((dto) => dto.toDomain()).toList();
+    } on DioException catch (e) {
+      String message = (e.error as AppException).errorMessage;
+      throw ServerErrorException(errorMessage: message);
+    }
+  }
+
+
 }
