@@ -1,4 +1,4 @@
-import 'package:restaurant_flutter_app/domain/repository/auth_repository.dart';
+import 'package:restaurant_flutter_app/domain/repository/auth/auth_repository.dart';
 
 import '../entinties/request/register_request.dart';
 import '../entinties/response/user_response.dart';
