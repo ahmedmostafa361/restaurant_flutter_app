@@ -89,50 +89,10 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.singleton<_i1047.AuthLocalStorage>(() => _i1047.AuthLocalStorage());
     gh.lazySingleton<_i65.CartViewModel>(() => _i65.CartViewModel());
-    gh.factory<_i851.RestaurantDetailsViewModel>(
-      () => _i851.RestaurantDetailsViewModel(
-        gh<_i592.GetRestaurantByIdUseCase>(),
-        gh<_i563.GetRestaurantMenuUseCase>(),
-      ),
-    );
-    gh.factory<_i960.OrdersHistoryViewModel>(
-      () => _i960.OrdersHistoryViewModel(
-        gh<_i997.GetOrdersUseCase>(),
-        gh<_i1047.AuthLocalStorage>(),
-      ),
-    );
-    gh.factory<_i1068.LoginViewModel>(
-      () => _i1068.LoginViewModel(
-        gh<_i826.LoginUseCase>(),
-        gh<_i1047.AuthLocalStorage>(),
-      ),
-    );
-    gh.factory<_i708.OrderDetailsScreenViewModel>(
-      () => _i708.OrderDetailsScreenViewModel(
-        gh<_i501.GetOrderDetailsUseCase>(),
-        gh<_i1047.AuthLocalStorage>(),
-        gh<_i997.DeleteOrderUseCase>(),
-      ),
-    );
     gh.singleton<_i361.Dio>(
       () => getItModule.provideDio(
         gh<_i361.BaseOptions>(),
         gh<_i528.PrettyDioLogger>(),
-      ),
-    );
-    gh.factory<_i507.RegisterViewModel>(
-      () => _i507.RegisterViewModel(gh<_i772.RegisterUseCase>()),
-    );
-    gh.factory<_i846.SearchViewModel>(
-      () => _i846.SearchViewModel(gh<_i35.SearchItemsUseCase>()),
-    );
-    gh.factory<_i5.HomeScreenViewModel>(
-      () => _i5.HomeScreenViewModel(gh<_i731.GetAllRestaurantsUseCase>()),
-    );
-    gh.factory<_i612.CheckoutViewModel>(
-      () => _i612.CheckoutViewModel(
-        gh<_i60.PlaceOrderUseCase>(),
-        gh<_i1047.AuthLocalStorage>(),
       ),
     );
     gh.singleton<_i124.ApiServices>(
@@ -180,9 +140,79 @@ extension GetItInjectableX on _i174.GetIt {
         remoteDataSource: gh<_i880.MenuRemoteDataSource>(),
       ),
     );
+    gh.factory<_i563.GetRestaurantMenuUseCase>(
+      () => _i563.GetRestaurantMenuUseCase(gh<_i582.MenuRepository>()),
+    );
+    gh.factory<_i826.LoginUseCase>(
+      () => _i826.LoginUseCase(gh<_i824.AuthRepository>()),
+    );
+    gh.factory<_i772.RegisterUseCase>(
+      () => _i772.RegisterUseCase(gh<_i824.AuthRepository>()),
+    );
+    gh.factory<_i35.SearchItemsUseCase>(
+      () => _i35.SearchItemsUseCase(gh<_i498.ItemsRepository>()),
+    );
+    gh.factory<_i507.RegisterViewModel>(
+      () => _i507.RegisterViewModel(gh<_i772.RegisterUseCase>()),
+    );
     gh.factory<_i601.RestaurantsRepository>(
       () => _i653.RestaurantsRepositoryImpl(
         remoteDataSource: gh<_i16.RestaurantsRemoteDataSource>(),
+      ),
+    );
+    gh.factory<_i846.SearchViewModel>(
+      () => _i846.SearchViewModel(gh<_i35.SearchItemsUseCase>()),
+    );
+    gh.factory<_i997.DeleteOrderUseCase>(
+      () => _i997.DeleteOrderUseCase(gh<_i707.OrdersRepository>()),
+    );
+    gh.factory<_i501.GetOrderDetailsUseCase>(
+      () => _i501.GetOrderDetailsUseCase(gh<_i707.OrdersRepository>()),
+    );
+    gh.factory<_i997.GetOrdersUseCase>(
+      () => _i997.GetOrdersUseCase(gh<_i707.OrdersRepository>()),
+    );
+    gh.factory<_i60.PlaceOrderUseCase>(
+      () => _i60.PlaceOrderUseCase(gh<_i707.OrdersRepository>()),
+    );
+    gh.factory<_i960.OrdersHistoryViewModel>(
+      () => _i960.OrdersHistoryViewModel(
+        gh<_i997.GetOrdersUseCase>(),
+        gh<_i1047.AuthLocalStorage>(),
+      ),
+    );
+    gh.factory<_i1068.LoginViewModel>(
+      () => _i1068.LoginViewModel(
+        gh<_i826.LoginUseCase>(),
+        gh<_i1047.AuthLocalStorage>(),
+      ),
+    );
+    gh.factory<_i731.GetAllRestaurantsUseCase>(
+      () => _i731.GetAllRestaurantsUseCase(gh<_i601.RestaurantsRepository>()),
+    );
+    gh.factory<_i592.GetRestaurantByIdUseCase>(
+      () => _i592.GetRestaurantByIdUseCase(gh<_i601.RestaurantsRepository>()),
+    );
+    gh.factory<_i708.OrderDetailsScreenViewModel>(
+      () => _i708.OrderDetailsScreenViewModel(
+        gh<_i501.GetOrderDetailsUseCase>(),
+        gh<_i1047.AuthLocalStorage>(),
+        gh<_i997.DeleteOrderUseCase>(),
+      ),
+    );
+    gh.factory<_i5.HomeScreenViewModel>(
+      () => _i5.HomeScreenViewModel(gh<_i731.GetAllRestaurantsUseCase>()),
+    );
+    gh.factory<_i612.CheckoutViewModel>(
+      () => _i612.CheckoutViewModel(
+        gh<_i60.PlaceOrderUseCase>(),
+        gh<_i1047.AuthLocalStorage>(),
+      ),
+    );
+    gh.factory<_i851.RestaurantDetailsViewModel>(
+      () => _i851.RestaurantDetailsViewModel(
+        gh<_i592.GetRestaurantByIdUseCase>(),
+        gh<_i563.GetRestaurantMenuUseCase>(),
       ),
     );
     return this;

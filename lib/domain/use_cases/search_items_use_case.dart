@@ -1,6 +1,9 @@
+import 'package:injectable/injectable.dart';
+
 import '../entinties/response/menu/menu_item.dart';
 import '../repository/menu/menu_items_repository.dart';
 
+@injectable
 class SearchItemsUseCase {
   ItemsRepository itemsRepository;
 
