@@ -1,6 +1,6 @@
 import 'package:restaurant_flutter_app/api/model/response/orders/order_details_response_dto.dart';
 
-import '../../../domain/entinties/response/orders/oreder_details.dart';
+import '../../../domain/entinties/response/orders/order_details.dart';
 
 extension OrderDetailsResponseDtoMapper on OrderDetailsResponseDto {
   OrderDetails toDomain() {

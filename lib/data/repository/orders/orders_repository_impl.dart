@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:restaurant_flutter_app/api/api_services.dart';
+import 'package:restaurant_flutter_app/api/mappers/orders/delete_order_mapper.dart';
 import 'package:restaurant_flutter_app/api/mappers/orders/make_order_request_mappers.dart';
 import 'package:restaurant_flutter_app/api/mappers/orders/order_details_mappers.dart';
 import 'package:restaurant_flutter_app/api/mappers/orders/order_history_response_mappers.dart';
@@ -9,8 +10,9 @@ import 'package:restaurant_flutter_app/domain/entinties/request/make_order_reque
 import 'package:restaurant_flutter_app/domain/entinties/response/orders/order_history_details.dart';
 
 import '../../../api/dio/dio_exceptions/app_exceptions.dart';
+import '../../../domain/entinties/response/orders/delete_order.dart';
 import '../../../domain/entinties/response/orders/master_order.dart';
-import '../../../domain/entinties/response/orders/oreder_details.dart';
+import '../../../domain/entinties/response/orders/order_details.dart';
 
 
 @Injectable(as: OrdersRemoteDataSource)
@@ -59,5 +61,15 @@ class OrdersRemoteDataSourceImpl implements OrdersRemoteDataSource {
     }
   }
 
+  @override
+  Future<DeleteOrder> deleteSingleOrderById(int orderId, String apikey) async {
+    try {
+      var response = await apiServices.deleteSingleOrderById(orderId, apikey);
+      return response.toDomain();
+    } on DioException catch (e) {
+      String message = (e.error as AppException).errorMessage;
+      throw ServerErrorException(errorMessage: message);
+    }
+  }
 
 }

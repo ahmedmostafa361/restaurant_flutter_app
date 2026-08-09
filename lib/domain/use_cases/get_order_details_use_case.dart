@@ -1,4 +1,4 @@
-import '../entinties/response/orders/oreder_details.dart';
+import '../entinties/response/orders/order_details.dart';
 import '../repository/orders/orders_repository.dart';
 
 class GetOrderDetailsUseCase {

@@ -1,4 +1,4 @@
-import '../../../../../domain/entinties/response/orders/oreder_details.dart';
+import '../../../../../domain/entinties/response/orders/order_details.dart';
 
 abstract class OrderDetailsScreenStates {}
 
@@ -16,4 +16,10 @@ class OrderDetailsScreenErrorState extends OrderDetailsScreenStates {
   final String errorMessage;
 
   OrderDetailsScreenErrorState({required this.errorMessage});
+}
+
+class OrderDetailsScreenDeleteSuccessState extends OrderDetailsScreenStates {
+  final int deletedOrderId;
+
+  OrderDetailsScreenDeleteSuccessState({required this.deletedOrderId});
 }
