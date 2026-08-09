@@ -45,6 +45,7 @@ import '../domain/repository/menu/menu_items_repository.dart' as _i498;
 import '../domain/repository/menu/menu_repository.dart' as _i582;
 import '../domain/repository/orders/orders_repository.dart' as _i707;
 import '../domain/repository/restaurants/restaurants_repository.dart' as _i601;
+import '../domain/use_cases/delete_order_use_case.dart' as _i997;
 import '../domain/use_cases/get_all_restaurants_use_case.dart' as _i731;
 import '../domain/use_cases/get_order_details_use_case.dart' as _i501;
 import '../domain/use_cases/get_orders_history_use_case.dart' as _i997;
@@ -88,12 +89,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.singleton<_i1047.AuthLocalStorage>(() => _i1047.AuthLocalStorage());
     gh.lazySingleton<_i65.CartViewModel>(() => _i65.CartViewModel());
-    gh.factory<_i708.OrderDetailsScreenViewModel>(
-      () => _i708.OrderDetailsScreenViewModel(
-        gh<_i501.GetOrderDetailsUseCase>(),
-        gh<_i1047.AuthLocalStorage>(),
-      ),
-    );
     gh.factory<_i851.RestaurantDetailsViewModel>(
       () => _i851.RestaurantDetailsViewModel(
         gh<_i592.GetRestaurantByIdUseCase>(),
@@ -110,6 +105,13 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i1068.LoginViewModel(
         gh<_i826.LoginUseCase>(),
         gh<_i1047.AuthLocalStorage>(),
+      ),
+    );
+    gh.factory<_i708.OrderDetailsScreenViewModel>(
+      () => _i708.OrderDetailsScreenViewModel(
+        gh<_i501.GetOrderDetailsUseCase>(),
+        gh<_i1047.AuthLocalStorage>(),
+        gh<_i997.DeleteOrderUseCase>(),
       ),
     );
     gh.singleton<_i361.Dio>(

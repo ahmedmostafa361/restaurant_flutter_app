@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:restaurant_flutter_app/api/model/response/auth/user_response_dto.dart';
 import 'package:restaurant_flutter_app/api/model/response/menu/menu_item_dto.dart';
 import 'package:restaurant_flutter_app/api/model/response/menu/menu_response_dto.dart';
+import 'package:restaurant_flutter_app/api/model/response/orders/delete_order_dto.dart';
 import 'package:restaurant_flutter_app/api/model/response/orders/order_details_response_dto.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -54,5 +55,9 @@ abstract class ApiServices {
   @GET(EndPoints.getAllOrderDetailsByIdApi)
   Future<List<OrderDetailsResponseDto>> getAllOrdersDetailsById(
       @Path("master_id") int masterId,
+      @Query("apikey") String apikey,);
+
+  @DELETE(EndPoints.deleteSingleOrderByIdApi)
+  Future<DeleteOrderDto> deleteSingleOrderById(@Path("order_id") int orderId,
       @Query("apikey") String apikey,);
 }
