@@ -70,4 +70,9 @@ class AppColors {
 
   /// Star ratings only
   static const Color rating = Color(0xFFF5A623);
+
+  static const Color whiteColor = Color(0xffFFFFFF);
+  static const Color redColor = Color(0xffFF5659);
+  static const Color greyColor = Color(0xFF808080);
+  static const Color transparentColor = Color(0x00FFFFFF);
 }

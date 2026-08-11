@@ -57,6 +57,8 @@ import '../domain/use_cases/register_use_case.dart' as _i772;
 import '../domain/use_cases/search_items_use_case.dart' as _i35;
 import '../features/ui/login_screen/cubit/login_view_model.dart' as _i1068;
 import '../features/ui/pages/cart_screen/cubit/cart_view_model.dart' as _i65;
+import '../features/ui/pages/nav_bar_screen/cubit/wrapper_screen_view_model.dart'
+    as _i221;
 import '../features/ui/pages/orders_screen/cubit/order_details_screen_view_model.dart'
     as _i708;
 import '../features/ui/pages/orders_screen/cubit/orders_history_view_model.dart'
@@ -82,6 +84,9 @@ extension GetItInjectableX on _i174.GetIt {
     await gh.factoryAsync<_i460.SharedPreferences>(
       () => getItModule.provideSharedPreferences(),
       preResolve: true,
+    );
+    gh.factory<_i221.WrapperScreenViewModel>(
+      () => _i221.WrapperScreenViewModel(),
     );
     gh.singleton<_i361.BaseOptions>(() => getItModule.provideBaseOptions());
     gh.singleton<_i528.PrettyDioLogger>(

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'app_colors.dart';
+
 /// Restaurant app typography system.
 ///
 /// Styles are named for what the text IS ([title], [price], [caption]...)
@@ -17,6 +19,17 @@ import 'package:google_fonts/google_fonts.dart';
 /// `GoogleFonts.poppins` below - everything else stays the same.
 class AppTextStyle {
   AppTextStyle._();
+
+  static final TextStyle normal18Grey = GoogleFonts.poppins(
+    color: AppColors.greyColor,
+    fontSize: 18,
+    fontWeight: FontWeight.w500,
+  );
+  static final TextStyle normal18White = GoogleFonts.poppins(
+    color: AppColors.whiteColor,
+    fontSize: 18,
+    fontWeight: FontWeight.w500,
+  );
 
   /// Onboarding, splash, empty-state headline
   static final TextStyle display = GoogleFonts.plusJakartaSans(
