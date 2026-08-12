@@ -1,5 +1,7 @@
 import 'package:mocktail/mocktail.dart';
 import 'package:restaurant_flutter_app/core/cache_save_data/auth_local_storage.dart';
+import 'package:restaurant_flutter_app/data/data_sources/remote/orders_remote_data_source.dart';
+import 'package:restaurant_flutter_app/data/data_sources/remote/restaurants_remote_data_source.dart';
 import 'package:restaurant_flutter_app/domain/repository/auth/auth_repository.dart';
 import 'package:restaurant_flutter_app/domain/repository/menu/menu_items_repository.dart';
 import 'package:restaurant_flutter_app/domain/repository/menu/menu_repository.dart';
@@ -15,6 +17,12 @@ import 'package:restaurant_flutter_app/domain/use_cases/login_use_case.dart';
 import 'package:restaurant_flutter_app/domain/use_cases/place_order_use_case.dart';
 import 'package:restaurant_flutter_app/domain/use_cases/register_use_case.dart';
 import 'package:restaurant_flutter_app/domain/use_cases/search_items_use_case.dart';
+
+class MockRestaurantsRemoteDataSource extends Mock
+    implements RestaurantsRemoteDataSource {}
+
+class MockOrdersRemoteDataSource extends Mock
+    implements OrdersRemoteDataSource {}
 
 class MockRestaurantsRepository extends Mock implements RestaurantsRepository {}
 
