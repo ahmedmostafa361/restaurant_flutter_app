@@ -22,7 +22,8 @@ class AppToast {
   ///
   /// [backgroundColor] and [textColor] are optional — leave them
   /// out to use the default look-and-feel built into the widget.
-  static void show(BuildContext context, {
+  static void show(
+    BuildContext context, {
     required String message,
     ToastType type = ToastType.info,
     ToastPosition position = ToastPosition.bottom,
@@ -35,15 +36,14 @@ class AppToast {
     final overlay = Overlay.of(context);
 
     final entry = OverlayEntry(
-      builder: (_) =>
-          _ToastWidget(
-            message: message,
-            type: type,
-            position: position,
-            backgroundColor: backgroundColor,
-            textColor: textColor,
-            onDismissed: _dismiss,
-          ),
+      builder: (_) => _ToastWidget(
+        message: message,
+        type: type,
+        position: position,
+        backgroundColor: backgroundColor,
+        textColor: textColor,
+        onDismissed: _dismiss,
+      ),
     );
 
     _currentEntry = entry;
@@ -52,8 +52,9 @@ class AppToast {
     _currentTimer = Timer(duration, _dismiss);
   }
 
-  static void success(BuildContext context,
-      String message, {
+  static void success(
+    BuildContext context,
+    String message, {
         Duration? duration,
         Color? backgroundColor,
         Color? textColor,
@@ -68,8 +69,9 @@ class AppToast {
     );
   }
 
-  static void error(BuildContext context,
-      String message, {
+  static void error(
+    BuildContext context,
+    String message, {
         Duration? duration,
         Color? backgroundColor,
         Color? textColor,
@@ -84,8 +86,9 @@ class AppToast {
     );
   }
 
-  static void warning(BuildContext context,
-      String message, {
+  static void warning(
+    BuildContext context,
+    String message, {
         Duration? duration,
         Color? backgroundColor,
         Color? textColor,
@@ -100,8 +103,9 @@ class AppToast {
     );
   }
 
-  static void info(BuildContext context,
-      String message, {
+  static void info(
+    BuildContext context,
+    String message, {
         Duration? duration,
         Color? backgroundColor,
         Color? textColor,
@@ -217,7 +221,6 @@ class _ToastWidgetState extends State<_ToastWidget>
     final mediaQuery = MediaQuery.of(context);
 
     final accentColor = style.color;
-    // Default background uses charcoal [secondary] for a premium contrast dark card
     final bgColor = widget.backgroundColor ?? AppColors.secondary;
     final txtColor = widget.textColor ?? AppColors.surface;
 
@@ -236,42 +239,48 @@ class _ToastWidgetState extends State<_ToastWidget>
           opacity: _fade,
           child: SlideTransition(
             position: _slide,
-            child: GestureDetector(
-              onTap: widget.onDismissed,
-              behavior: HitTestBehavior.opaque,
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
-                decoration: BoxDecoration(
-                  color: bgColor,
-                  borderRadius: BorderRadius.circular(14.r),
-                  border: Border(
-                    left: BorderSide(color: accentColor, width: 4.w),
+            child: Dismissible(
+              key: UniqueKey(),
+              direction: DismissDirection.down,
+              onDismissed: (_) => widget.onDismissed(),
+              child: GestureDetector(
+                onTap: widget.onDismissed,
+                behavior: HitTestBehavior.opaque,
+                child: Container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 16.w,
+                    vertical: 14.h,
                   ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.15),
-                      blurRadius: 12,
-                      offset: const Offset(0, 4),
+                  decoration: BoxDecoration(
+                    color: bgColor,
+                    borderRadius: BorderRadius.circular(14.r),
+                    border: Border(
+                      left: BorderSide(color: accentColor, width: 4.w),
                     ),
-                  ],
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Icon(style.icon, color: accentColor, size: 22.sp),
-                    SizedBox(width: 10.w),
-                    Flexible(
-                      child: Text(
-                        widget.message,
-                        style: AppTextStyle.body.copyWith(
-                          color: txtColor,
-                        ),
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.15),
+                        blurRadius: 12,
+                        offset: const Offset(0, 4),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Icon(style.icon, color: accentColor, size: 22.sp),
+                      SizedBox(width: 10.w),
+                      Flexible(
+                        child: Text(
+                          widget.message,
+                          style: AppTextStyle.body.copyWith(color: txtColor),
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
