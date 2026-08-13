@@ -16,4 +16,5 @@ class AppRoutes {
   static const String cartScreen = 'cart_screen';
   static const String ordersScreen = 'orders_screen';
   static const String orderDetailsScreen = 'order_details_screen';
+  static const String orderConfirmationScreen = '/order-confirmation';
 }

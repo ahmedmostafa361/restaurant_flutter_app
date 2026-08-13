@@ -85,10 +85,11 @@ class _CartView extends StatelessWidget {
           listener: (context, orderState) {
             if (orderState is PlaceOrderSuccessState) {
               getIt<CartViewModel>().clearCart();
-              AppToast.success(context, 'Order placed successfully!');
-              Navigator.of(context)
-                  .pushNamedAndRemoveUntil(
-                  AppRoutes.ordersScreen, (route) => false);
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                AppRoutes.orderConfirmationScreen,
+                    (route) => false,
+                arguments: orderState.response,
+              );
             } else if (orderState is PlaceOrderErrorState) {
               AppToast.error(context, orderState.errorMessage);
             }

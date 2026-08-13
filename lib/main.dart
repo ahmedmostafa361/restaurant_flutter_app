@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'config/di.dart';
+import 'core/cache_save_data/lottie_animation_cache_manager.dart';
 import 'core/utlis/app_routes.dart';
 import 'features/ui/login_screen/login_screen.dart';
 import 'features/ui/pages/cart_screen/cart_screen.dart';
+import 'features/ui/pages/cart_screen/widget/order_confirmation_screen.dart';
 import 'features/ui/pages/nav_bar_screen/main_wrapper_screen.dart';
 import 'features/ui/pages/orders_screen/order_details_screen.dart';
 import 'features/ui/pages/orders_screen/orders_screen.dart';
@@ -17,6 +19,10 @@ import 'features/ui/register_screen/register_screen.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await configureDependencies();
+  await LottieCacheManager().preloadAllNetwork([
+    'https://lottie.host/d159d4ea-169f-48a1-88bb-af502e352052/zdlEBqWjg2.json',
+    // Add other critical network JSON URLs here
+  ]);
   runApp(const MyApp());
 }
 
@@ -53,6 +59,8 @@ class MyApp extends StatelessWidget {
             AppRoutes.ordersScreen: (context) => const OrdersScreen(),
             AppRoutes.orderDetailsScreen: (context) =>
                 const OrderDetailsScreen(),
+            AppRoutes.orderConfirmationScreen: (context) =>
+                const OrderConfirmationScreen(),
           },
         );
       },
