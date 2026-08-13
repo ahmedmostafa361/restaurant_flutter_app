@@ -57,6 +57,8 @@ import '../domain/use_cases/register_use_case.dart' as _i772;
 import '../domain/use_cases/search_items_use_case.dart' as _i35;
 import '../features/ui/login_screen/cubit/login_view_model.dart' as _i1068;
 import '../features/ui/pages/cart_screen/cubit/cart_view_model.dart' as _i65;
+import '../features/ui/pages/cart_screen/cubit/place_order_view_model.dart'
+    as _i359;
 import '../features/ui/pages/nav_bar_screen/cubit/wrapper_screen_view_model.dart'
     as _i221;
 import '../features/ui/pages/orders_screen/cubit/order_details_screen_view_model.dart'
@@ -207,6 +209,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i5.HomeScreenViewModel>(
       () => _i5.HomeScreenViewModel(gh<_i731.GetAllRestaurantsUseCase>()),
+    );
+    gh.factory<_i359.PlaceOrderViewModel>(
+      () => _i359.PlaceOrderViewModel(
+        gh<_i60.PlaceOrderUseCase>(),
+        gh<_i1047.AuthLocalStorage>(),
+      ),
     );
     gh.factory<_i612.CheckoutViewModel>(
       () => _i612.CheckoutViewModel(
