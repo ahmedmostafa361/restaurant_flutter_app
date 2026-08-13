@@ -10,7 +10,8 @@ import '../../../../widget/auth_resauble_widgets/fade_slide_entrance.dart';
 import '../../../../widget/toast_bar_message.dart';
 import 'cubit/order_details_screen_states.dart';
 import 'cubit/order_details_screen_view_model.dart';
-
+import 'cubit/orders_history_states.dart';
+import 'cubit/orders_history_view_model.dart';
 
 class OrderDetailsScreen extends StatelessWidget {
   const OrderDetailsScreen({super.key});
@@ -22,10 +23,17 @@ class OrderDetailsScreen extends StatelessWidget {
         .settings
         .arguments as int?;
 
-    return BlocProvider(
-      create: (_) =>
-      getIt<OrderDetailsScreenViewModel>()
-        ..getOrderDetails(masterId ?? 0),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (_) =>
+          getIt<OrderDetailsScreenViewModel>()
+            ..getOrderDetails(masterId ?? 0),
+        ),
+        // Reused only to fire deleteMasterOrder — same Cubit/use case as the
+        // Orders list screen, not a second implementation of order deletion.
+        BlocProvider(create: (_) => getIt<OrdersHistoryViewModel>()),
+      ],
       child: _OrderDetailsView(masterId: masterId),
     );
   }
@@ -33,7 +41,6 @@ class OrderDetailsScreen extends StatelessWidget {
 
 class _OrderDetailsView extends StatelessWidget {
   final int? masterId;
-
   const _OrderDetailsView({required this.masterId});
 
   Future<void> _confirmDeleteItem(BuildContext context,
@@ -73,6 +80,44 @@ class _OrderDetailsView extends StatelessWidget {
     }
   }
 
+  Future<void> _confirmDeleteOrder(BuildContext context) async {
+    if (masterId == null) return;
+
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) =>
+          AlertDialog(
+            backgroundColor: AppColors.surface,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16.r)),
+            title: Text('Delete this order?',
+                style: AppTextStyle.title.copyWith(
+                    color: AppColors.textPrimary)),
+            content: Text(
+              'This will permanently delete order #$masterId and all its items.',
+              style: AppTextStyle.body.copyWith(color: AppColors.textSecondary),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(dialogContext, false),
+                child: Text('Cancel', style: AppTextStyle.label.copyWith(
+                    color: AppColors.textSecondary)),
+              ),
+              TextButton(
+                onPressed: () => Navigator.pop(dialogContext, true),
+                child: Text('Delete',
+                    style: AppTextStyle.label.copyWith(color: AppColors.error)),
+              ),
+            ],
+          ),
+    );
+
+    if (!context.mounted) return;
+    if (confirmed == true) {
+      context.read<OrdersHistoryViewModel>().deleteMasterOrder(masterId!);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,112 +129,138 @@ class _OrderDetailsView extends StatelessWidget {
           masterId != null ? 'Order #$masterId' : 'Order Details',
           style: AppTextStyle.title.copyWith(color: AppColors.textPrimary),
         ),
+        actions: [
+          if (masterId != null)
+            IconButton(
+              onPressed: () => _confirmDeleteOrder(context),
+              icon: Icon(Icons.delete_outline_rounded, color: AppColors.error,
+                  size: 22.sp),
+              tooltip: 'Delete order',
+            ),
+        ],
       ),
-      body: BlocConsumer<OrderDetailsScreenViewModel, OrderDetailsScreenStates>(
-        listener: (context, state) {
-          if (state is OrderDetailsScreenDeleteSuccessState) {
-            AppToast.success(context, 'Item removed.');
-            // Reuse the existing fetch method to reflect the change —
-            // no separate refresh mechanism.
-            context.read<OrderDetailsScreenViewModel>().getOrderDetails(
-                masterId ?? 0);
-          } else if (state is OrderDetailsScreenErrorState) {
-            AppToast.error(context, state.errorMessage);
-          }
-        },
-        builder: (context, state) {
-          if (state is OrderDetailsScreenLoadingState ||
-              state is OrderDetailsScreenInitialState) {
-            return const _DetailsSkeleton();
-          }
+      body: MultiBlocListener(
+        listeners: [
+          BlocListener<OrderDetailsScreenViewModel, OrderDetailsScreenStates>(
+            listener: (context, state) {
+              if (state is OrderDetailsScreenDeleteSuccessState) {
+                AppToast.success(context, 'Item removed.');
+                context.read<OrderDetailsScreenViewModel>().getOrderDetails(
+                    masterId ?? 0);
+              } else if (state is OrderDetailsScreenErrorState) {
+                AppToast.error(context, state.errorMessage);
+              }
+            },
+          ),
+          BlocListener<OrdersHistoryViewModel, OrdersHistoryStates>(
+            listener: (context, state) {
+              if (state is OrdersHistoryDeleteSuccessState) {
+                AppToast.success(
+                    context, 'Order #${state.deletedMasterId} deleted.');
+                // Pop back to Orders with a signal to refresh its list —
+                // reuses the existing refetch pattern, no new mechanism.
+                Navigator.of(context).pop(true);
+              } else if (state is OrdersHistoryErrorState) {
+                AppToast.error(context, state.errorMessage);
+              }
+            },
+          ),
+        ],
+        child: BlocBuilder<OrderDetailsScreenViewModel,
+            OrderDetailsScreenStates>(
+          builder: (context, state) {
+            if (state is OrderDetailsScreenLoadingState ||
+                state is OrderDetailsScreenInitialState) {
+              return const _DetailsSkeleton();
+            }
 
-          if (state is OrderDetailsScreenErrorState) {
-            return Center(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 32.w),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(Icons.error_outline_rounded, size: 40.sp,
-                        color: AppColors.error),
-                    SizedBox(height: 12.h),
-                    Text(
-                      state.errorMessage,
-                      textAlign: TextAlign.center,
-                      style: AppTextStyle.body.copyWith(
-                          color: AppColors.textSecondary),
-                    ),
-                    SizedBox(height: 20.h),
-                    TextButton(
-                      onPressed: () =>
-                          context
-                              .read<OrderDetailsScreenViewModel>()
-                              .getOrderDetails(masterId ?? 0),
-                      child: Text('Retry',
-                          style: AppTextStyle.label.copyWith(color: AppColors
-                              .primary)),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          }
-
-          if (state is! OrderDetailsScreenSuccessState) {
-            return const SizedBox.shrink();
-          }
-
-          final items = state.orderDetails;
-          if (items.isEmpty) {
-            return Center(
-              child: Text(
-                'No items found for this order.',
-                style: AppTextStyle.body.copyWith(
-                    color: AppColors.textSecondary),
-              ),
-            );
-          }
-
-          final total = items.fold<double>(
-              0, (sum, i) => sum + (i.totalPrice ?? 0));
-
-          return FadeSlideEntrance(
-            child: ListView(
-              padding: EdgeInsets.fromLTRB(20.w, 12.h, 20.w, 24.h),
-              children: [
-                Text('Items', style: AppTextStyle.headline.copyWith(
-                    color: AppColors.textPrimary)),
-                SizedBox(height: 12.h),
-                for (final item in items) ...[
-                  _OrderItemRow(item: item,
-                      onDelete: () => _confirmDeleteItem(context, item)),
-                  SizedBox(height: 10.h),
-                ],
-                SizedBox(height: 12.h),
-                Container(
-                  padding: EdgeInsets.all(16.w),
-                  decoration: BoxDecoration(
-                    color: AppColors.card,
-                    borderRadius: BorderRadius.circular(16.r),
-                    border: Border.all(color: AppColors.border),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            if (state is OrderDetailsScreenErrorState) {
+              return Center(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 32.w),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text('Total', style: AppTextStyle.subtitle.copyWith(
-                          color: AppColors.textSecondary)),
+                      Icon(Icons.error_outline_rounded, size: 40.sp,
+                          color: AppColors.error),
+                      SizedBox(height: 12.h),
                       Text(
-                        '\$${total.toStringAsFixed(2)}',
-                        style: AppTextStyle.title.copyWith(
-                            color: AppColors.textPrimary),
+                        state.errorMessage,
+                        textAlign: TextAlign.center,
+                        style: AppTextStyle.body.copyWith(color: AppColors
+                            .textSecondary),
+                      ),
+                      SizedBox(height: 20.h),
+                      TextButton(
+                        onPressed: () =>
+                            context
+                                .read<OrderDetailsScreenViewModel>()
+                                .getOrderDetails(masterId ?? 0),
+                        child: Text('Retry', style: AppTextStyle.label.copyWith(
+                            color: AppColors.primary)),
                       ),
                     ],
                   ),
                 ),
-              ],
-            ),
-          );
-        },
+              );
+            }
+
+            if (state is! OrderDetailsScreenSuccessState) {
+              return const SizedBox.shrink();
+            }
+
+            final items = state.orderDetails;
+            if (items.isEmpty) {
+              return Center(
+                child: Text(
+                  'No items found for this order.',
+                  style: AppTextStyle.body.copyWith(
+                      color: AppColors.textSecondary),
+                ),
+              );
+            }
+
+            final total = items.fold<double>(
+                0, (sum, i) => sum + (i.totalPrice ?? 0));
+
+            return FadeSlideEntrance(
+              child: ListView(
+                padding: EdgeInsets.fromLTRB(20.w, 12.h, 20.w, 24.h),
+                children: [
+                  Text('Items', style: AppTextStyle.headline.copyWith(
+                      color: AppColors.textPrimary)),
+                  SizedBox(height: 12.h),
+                  for (final item in items) ...[
+                    _OrderItemRow(item: item,
+                        onDelete: () => _confirmDeleteItem(context, item)),
+                    SizedBox(height: 10.h),
+                  ],
+                  SizedBox(height: 12.h),
+                  Container(
+                    padding: EdgeInsets.all(16.w),
+                    decoration: BoxDecoration(
+                      color: AppColors.card,
+                      borderRadius: BorderRadius.circular(16.r),
+                      border: Border.all(color: AppColors.border),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Total', style: AppTextStyle.subtitle.copyWith(
+                            color: AppColors.textSecondary)),
+                        Text(
+                          '\$${total.toStringAsFixed(2)}',
+                          style: AppTextStyle.title.copyWith(
+                              color: AppColors.textPrimary),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }

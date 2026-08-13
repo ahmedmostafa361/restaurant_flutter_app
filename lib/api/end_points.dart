@@ -10,4 +10,5 @@ class EndPoints {
   static const String getAllOrderApi = "/Order";
   static const String getAllOrderDetailsByIdApi = "/Order/{master_id}";
   static const String deleteSingleOrderByIdApi = "/Order/{order_id}";
+  static const String deleteMasterOrderApi = "/Order/master/{master_id}";
 }

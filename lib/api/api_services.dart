@@ -10,6 +10,7 @@ import 'end_points.dart';
 import 'model/request/make_order_request_dto.dart';
 import 'model/request/register_request_dto.dart';
 import 'model/response/auth/user_code_login_response_dto.dart';
+import 'model/response/orders/delete_master_order_dto.dart';
 import 'model/response/orders/make_order_response_dto.dart';
 import 'model/response/orders/order_history_dto.dart';
 import 'model/response/restaurants/restaurant_dto.dart';
@@ -59,5 +60,10 @@ abstract class ApiServices {
 
   @DELETE(EndPoints.deleteSingleOrderByIdApi)
   Future<DeleteOrderDto> deleteSingleOrderById(@Path("order_id") int orderId,
+      @Query("apikey") String apikey,);
+
+  @DELETE(EndPoints.deleteMasterOrderApi)
+  Future<DeleteMasterOrderDto> deleteMasterOrder(
+      @Path("master_id") int masterId,
       @Query("apikey") String apikey,);
 }

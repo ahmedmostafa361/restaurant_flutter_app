@@ -45,6 +45,7 @@ import '../domain/repository/menu/menu_items_repository.dart' as _i498;
 import '../domain/repository/menu/menu_repository.dart' as _i582;
 import '../domain/repository/orders/orders_repository.dart' as _i707;
 import '../domain/repository/restaurants/restaurants_repository.dart' as _i601;
+import '../domain/use_cases/delete_master_order_use_case.dart' as _i351;
 import '../domain/use_cases/delete_order_use_case.dart' as _i997;
 import '../domain/use_cases/get_all_restaurants_use_case.dart' as _i731;
 import '../domain/use_cases/get_order_details_use_case.dart' as _i501;
@@ -170,6 +171,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i846.SearchViewModel>(
       () => _i846.SearchViewModel(gh<_i35.SearchItemsUseCase>()),
     );
+    gh.factory<_i351.DeleteMasterOrderUseCase>(
+      () => _i351.DeleteMasterOrderUseCase(gh<_i707.OrdersRepository>()),
+    );
     gh.factory<_i997.DeleteOrderUseCase>(
       () => _i997.DeleteOrderUseCase(gh<_i707.OrdersRepository>()),
     );
@@ -181,12 +185,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i60.PlaceOrderUseCase>(
       () => _i60.PlaceOrderUseCase(gh<_i707.OrdersRepository>()),
-    );
-    gh.factory<_i960.OrdersHistoryViewModel>(
-      () => _i960.OrdersHistoryViewModel(
-        gh<_i997.GetOrdersUseCase>(),
-        gh<_i1047.AuthLocalStorage>(),
-      ),
     );
     gh.factory<_i1068.LoginViewModel>(
       () => _i1068.LoginViewModel(
@@ -205,6 +203,13 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i501.GetOrderDetailsUseCase>(),
         gh<_i1047.AuthLocalStorage>(),
         gh<_i997.DeleteOrderUseCase>(),
+      ),
+    );
+    gh.factory<_i960.OrdersHistoryViewModel>(
+      () => _i960.OrdersHistoryViewModel(
+        gh<_i997.GetOrdersUseCase>(),
+        gh<_i1047.AuthLocalStorage>(),
+        gh<_i351.DeleteMasterOrderUseCase>(),
       ),
     );
     gh.factory<_i5.HomeScreenViewModel>(
