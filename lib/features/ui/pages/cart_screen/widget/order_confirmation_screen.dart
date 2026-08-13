@@ -130,8 +130,13 @@ class _ConfirmationContentState extends State<_ConfirmationContent>
                     child: CustomElevatedButton(
                       onPressed: () =>
                           Navigator.of(context).pushNamedAndRemoveUntil(
-                            AppRoutes.ordersScreen,
+                            AppRoutes.mainWrapperScreen,
                             (route) => false,
+                            // Index of 'Orders' in MainWrapperScreen's tab
+                            // list (Home, Orders, Profile) — lands the user
+                            // on the wrapper with Orders selected, instead
+                            // of pushing OrdersScreen bare with no nav bar.
+                            arguments: 1,
                           ),
                       text: 'View Order',
                     ),

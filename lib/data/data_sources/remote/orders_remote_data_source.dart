@@ -1,4 +1,5 @@
 import '../../../domain/entinties/request/make_order_request.dart';
+import '../../../domain/entinties/response/orders/delete_master_order.dart';
 import '../../../domain/entinties/response/orders/delete_order.dart';
 import '../../../domain/entinties/response/orders/master_order.dart';
 import '../../../domain/entinties/response/orders/order_details.dart';
@@ -12,4 +13,6 @@ abstract class OrdersRemoteDataSource {
   Future<List<OrderDetails>> getOrderDetailsById(int masterId, String apikey);
 
   Future<DeleteOrder> deleteSingleOrderById(int orderId, String apikey);
+
+  Future<DeleteMasterOrder> deleteMasterOrder(int masterId, String apikey);
 }

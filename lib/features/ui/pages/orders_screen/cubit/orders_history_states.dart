@@ -22,3 +22,9 @@ class OrdersHistoryErrorState extends OrdersHistoryStates {
 
 // Distinct from a generic error — user needs to log in, not retry
 class OrdersHistoryNotAuthenticatedState extends OrdersHistoryStates {}
+
+class OrdersHistoryDeleteSuccessState extends OrdersHistoryStates {
+  final int deletedMasterId;
+
+  OrdersHistoryDeleteSuccessState({required this.deletedMasterId});
+}

@@ -297,8 +297,10 @@ class _ApiServices implements ApiServices {
   }
 
   @override
-  Future<DeleteOrderDto> deleteSingleOrderById(int orderId,
-      String apikey,) async {
+  Future<DeleteOrderDto> deleteSingleOrderById(
+    int orderId,
+    String apikey,
+  ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'apikey': apikey};
     final _headers = <String, dynamic>{};
@@ -306,17 +308,47 @@ class _ApiServices implements ApiServices {
     final _options = _setStreamType<DeleteOrderDto>(
       Options(method: 'DELETE', headers: _headers, extra: _extra)
           .compose(
-        _dio.options,
-        '/Order/${orderId}',
-        queryParameters: queryParameters,
-        data: _data,
-      )
+            _dio.options,
+            '/Order/${orderId}',
+            queryParameters: queryParameters,
+            data: _data,
+          )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
     late DeleteOrderDto _value;
     try {
       _value = DeleteOrderDto.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<DeleteMasterOrderDto> deleteMasterOrder(
+    int masterId,
+    String apikey,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'apikey': apikey};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<DeleteMasterOrderDto>(
+      Options(method: 'DELETE', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/Order/master/${masterId}',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late DeleteMasterOrderDto _value;
+    try {
+      _value = DeleteMasterOrderDto.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
       rethrow;

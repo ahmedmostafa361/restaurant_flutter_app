@@ -2,6 +2,7 @@ import 'package:injectable/injectable.dart';
 import 'package:restaurant_flutter_app/domain/entinties/request/make_order_request.dart';
 
 import '../../../../data/data_sources/remote/orders_remote_data_source.dart';
+import '../../../../domain/entinties/response/orders/delete_master_order.dart';
 import '../../../../domain/entinties/response/orders/delete_order.dart';
 import '../../../../domain/entinties/response/orders/master_order.dart';
 import '../../../../domain/entinties/response/orders/order_details.dart';
@@ -32,5 +33,10 @@ class OrdersRepositoryImpl implements OrdersRepository {
   @override
   Future<DeleteOrder> deleteSingleOrderById(int orderId, String apikey) {
     return remoteDataSource.deleteSingleOrderById(orderId, apikey);
+  }
+
+  @override
+  Future<DeleteMasterOrder> deleteMasterOrder(int masterId, String apikey) {
+    return remoteDataSource.deleteMasterOrder(masterId, apikey);
   }
 }

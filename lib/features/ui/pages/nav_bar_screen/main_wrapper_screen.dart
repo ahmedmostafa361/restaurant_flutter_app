@@ -17,7 +17,30 @@ class MainWrapperScreen extends StatefulWidget {
 class _MainWrapperScreenState extends State<MainWrapperScreen> {
   final WrapperScreenViewModel viewModel = getIt<WrapperScreenViewModel>();
 
+  // Guards against re-applying the requested tab on every rebuild —
+  // didChangeDependencies can fire more than once, and we only want
+  // the incoming route argument to set the tab a single time.
+  bool _didApplyInitialIndex = false;
+
   static const _labels = ['Home', 'Orders', 'Profile'];
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    if (!_didApplyInitialIndex) {
+      final args = ModalRoute.of(context)?.settings.arguments;
+
+      // Callers can push this route with an int argument to land directly
+      // on a specific tab, e.g. AppRoutes.mainWrapperScreen with arguments: 1
+      // to open straight into Orders after placing an order.
+      if (args is int && args != viewModel.selectedIndex) {
+        viewModel.changeIndex(args);
+      }
+
+      _didApplyInitialIndex = true;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
