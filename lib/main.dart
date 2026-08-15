@@ -21,7 +21,8 @@ Future<void> main() async {
   await configureDependencies();
   await LottieCacheManager().preloadAllNetwork([
     'https://lottie.host/d159d4ea-169f-48a1-88bb-af502e352052/zdlEBqWjg2.json',
-    // Add other critical network JSON URLs here
+    "https://lottie.host/3bca594e-850c-4008-8f65-6e0b41324694/dOu9WiQ4xO.json",
+    'https://lottie.host/6ab1889c-1f58-4818-9f8d-33c631f75315/wD5gMCkiFu.json',
   ]);
   runApp(const MyApp());
 }
