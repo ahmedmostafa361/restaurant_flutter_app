@@ -17,9 +17,6 @@ class MainWrapperScreen extends StatefulWidget {
 class _MainWrapperScreenState extends State<MainWrapperScreen> {
   final WrapperScreenViewModel viewModel = getIt<WrapperScreenViewModel>();
 
-  // Guards against re-applying the requested tab on every rebuild —
-  // didChangeDependencies can fire more than once, and we only want
-  // the incoming route argument to set the tab a single time.
   bool _didApplyInitialIndex = false;
 
   static const _labels = ['Home', 'Orders', 'Profile'];
@@ -31,11 +28,9 @@ class _MainWrapperScreenState extends State<MainWrapperScreen> {
     if (!_didApplyInitialIndex) {
       final args = ModalRoute.of(context)?.settings.arguments;
 
-      // Callers can push this route with an int argument to land directly
-      // on a specific tab, e.g. AppRoutes.mainWrapperScreen with arguments: 1
-      // to open straight into Orders after placing an order.
+      /// todo: on a specific tab, e.g. AppRoutes.mainWrapperScreen with arguments: to open straight into Orders after placing an order.
       if (args is int && args != viewModel.selectedIndex) {
-        viewModel.changeIndex(args);
+        viewModel.changeIndex(args); //0 1 2
       }
 
       _didApplyInitialIndex = true;
@@ -49,8 +44,8 @@ class _MainWrapperScreenState extends State<MainWrapperScreen> {
       builder: (context, state) {
         return Scaffold(
           backgroundColor: AppColors.background,
-          // IndexedStack keeps each tab's scroll position / state alive
-          // when switching tabs, instead of rebuilding it from scratch.
+
+          /// todo: IndexedStack keeps each tab's scroll position / state alive when switching tabs, instead of rebuilding it from scratch.
           body: IndexedStack(
             index: viewModel.selectedIndex,
             children: viewModel.selectedWidget,
