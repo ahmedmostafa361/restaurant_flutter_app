@@ -7,6 +7,7 @@ import 'package:restaurant_flutter_app/domain/repository/menu/menu_items_reposit
 import 'package:restaurant_flutter_app/domain/repository/menu/menu_repository.dart';
 import 'package:restaurant_flutter_app/domain/repository/orders/orders_repository.dart';
 import 'package:restaurant_flutter_app/domain/repository/restaurants/restaurants_repository.dart';
+import 'package:restaurant_flutter_app/domain/use_cases/delete_master_order_use_case.dart';
 import 'package:restaurant_flutter_app/domain/use_cases/delete_order_use_case.dart';
 import 'package:restaurant_flutter_app/domain/use_cases/get_all_restaurants_use_case.dart';
 import 'package:restaurant_flutter_app/domain/use_cases/get_order_details_use_case.dart';
@@ -17,6 +18,9 @@ import 'package:restaurant_flutter_app/domain/use_cases/login_use_case.dart';
 import 'package:restaurant_flutter_app/domain/use_cases/place_order_use_case.dart';
 import 'package:restaurant_flutter_app/domain/use_cases/register_use_case.dart';
 import 'package:restaurant_flutter_app/domain/use_cases/search_items_use_case.dart';
+
+class MockDeleteMasterOrderUseCase extends Mock
+    implements DeleteMasterOrderUseCase {}
 
 class MockRestaurantsRemoteDataSource extends Mock
     implements RestaurantsRemoteDataSource {}
