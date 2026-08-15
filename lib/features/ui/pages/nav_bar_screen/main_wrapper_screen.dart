@@ -44,7 +44,6 @@ class _MainWrapperScreenState extends State<MainWrapperScreen> {
       builder: (context, state) {
         return Scaffold(
           backgroundColor: AppColors.background,
-
           /// todo: IndexedStack keeps each tab's scroll position / state alive when switching tabs, instead of rebuilding it from scratch.
           body: IndexedStack(
             index: viewModel.selectedIndex,

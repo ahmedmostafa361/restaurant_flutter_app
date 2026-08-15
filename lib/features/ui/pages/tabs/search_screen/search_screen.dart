@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lottie/lottie.dart';
 import 'package:restaurant_flutter_app/features/ui/pages/tabs/search_screen/widget/item_search_result_card.dart';
+import 'package:restaurant_flutter_app/widget/resuable_cache_lottie.dart';
 
 import '../../../../../config/di.dart';
 import '../../../../../core/utlis/app_colors.dart';
@@ -299,8 +299,8 @@ class _InitialSearchView extends StatelessWidget {
           children: [
             SizedBox(
                 height: 230.h,
-                child: Lottie.network(
-                    'https://lottie.host/3bca594e-850c-4008-8f65-6e0b41324694/dOu9WiQ4xO.json')
+                child: CachedLottie(
+                    url: 'https://lottie.host/3bca594e-850c-4008-8f65-6e0b41324694/dOu9WiQ4xO.json')
             ),
             SizedBox(height: 14.h),
             Text('Find your next meal', style: AppTextStyle.title.copyWith(
@@ -329,15 +329,12 @@ class _NoResultsView extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-
-
             SizedBox(
                 height: 280.h,
-                child: Lottie.network(
-                    'https://lottie.host/6ab1889c-1f58-4818-9f8d-33c631f75315/wD5gMCkiFu.json')
+                child: CachedLottie(
+                    url: 'https://lottie.host/6ab1889c-1f58-4818-9f8d-33c631f75315/wD5gMCkiFu.json'
+                )
             ),
-
-
             SizedBox(height: 12.h),
             Text('No dishes found', style: AppTextStyle.title.copyWith(
                 color: AppColors.textPrimary)),
@@ -356,7 +353,6 @@ class _NoResultsView extends StatelessWidget {
 
 class _ErrorView extends StatelessWidget {
   final String message;
-
   const _ErrorView({required this.message});
 
   @override
@@ -396,7 +392,6 @@ class _ResultsSkeleton extends StatelessWidget {
 
 class _ShimmerBar extends StatefulWidget {
   final double height;
-
   const _ShimmerBar({required this.height});
 
   @override
