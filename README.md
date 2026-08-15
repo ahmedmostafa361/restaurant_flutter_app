@@ -3,7 +3,8 @@
 A new Flutter project.
 
 ## Getting Started
-
+[![Flutter CI](https://github.com/ahmedmostafa361/restaurant_flutter_app/actions/workflows/flutter_ci.yml/badge.svg)](https://github.com/ahmedmostafa361/restaurant_flutter_app/actions/workflows/flutter_ci.yml)
+[![codecov](PASTE_CODECOV_BADGE_URL_HERE)](https://codecov.io/gh/ahmedmostafa361/restaurant_flutter_app)
 This project is a starting point for a Flutter application.
 
 A few resources to get you started if this is your first Flutter project:
