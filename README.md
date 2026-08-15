@@ -1,5 +1,5 @@
 # restaurant_flutter_app
-
+[![codecov](https://codecov.io/gh/ahmedmostafa361/restaurant_flutter_app/branch/master/graph/badge.svg?token=4A6NIZ80FT)](https://codecov.io/gh/ahmedmostafa361/restaurant_flutter_app)
 A new Flutter project.
 
 ## Getting Started
