@@ -1,5 +1,10 @@
 import 'package:mocktail/mocktail.dart';
+import 'package:restaurant_flutter_app/api/api_services.dart';
+import 'package:restaurant_flutter_app/api/model/request/make_order_request_dto.dart';
 import 'package:restaurant_flutter_app/core/cache_save_data/auth_local_storage.dart';
+import 'package:restaurant_flutter_app/data/data_sources/remote/auth_remote_data_source.dart';
+import 'package:restaurant_flutter_app/data/data_sources/remote/items_remote_data_source.dart';
+import 'package:restaurant_flutter_app/data/data_sources/remote/menu_remote_data_source.dart';
 import 'package:restaurant_flutter_app/data/data_sources/remote/orders_remote_data_source.dart';
 import 'package:restaurant_flutter_app/data/data_sources/remote/restaurants_remote_data_source.dart';
 import 'package:restaurant_flutter_app/domain/repository/auth/auth_repository.dart';
@@ -18,6 +23,16 @@ import 'package:restaurant_flutter_app/domain/use_cases/login_use_case.dart';
 import 'package:restaurant_flutter_app/domain/use_cases/place_order_use_case.dart';
 import 'package:restaurant_flutter_app/domain/use_cases/register_use_case.dart';
 import 'package:restaurant_flutter_app/domain/use_cases/search_items_use_case.dart';
+
+class MockAuthRemoteDataSource extends Mock implements AuthRemoteDataSource {}
+
+class FakeMakeOrderRequestDto extends Fake implements MakeOrderRequestDto {}
+
+class MockMenuRemoteDataSource extends Mock implements MenuRemoteDataSource {}
+
+class MockItemsRemoteDataSource extends Mock implements ItemsRemoteDataSource {}
+
+class MockApiServices extends Mock implements ApiServices {}
 
 class MockDeleteMasterOrderUseCase extends Mock
     implements DeleteMasterOrderUseCase {}

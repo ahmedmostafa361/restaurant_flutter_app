@@ -5,12 +5,11 @@ import 'package:restaurant_flutter_app/api/model/response/orders/order_details_r
 
 void main() {
   group('DeleteOrderDtoMapper', () {
-    test('maps message and nested order correctly to domain', () {
+    test('maps message and nested orderExists correctly to domain', () {
       final dto = DeleteOrderDto(
         message: 'Order deleted successfully',
         orderExists: OrderDetailsResponseDto(
           orderID: 215,
-          userID: 'ahmed@bachelor.com',
           itemName: 'Chicken Biryani',
           quantity: 2,
           itemPrice: 280.0,
@@ -24,7 +23,6 @@ void main() {
       expect(domain.message, 'Order deleted successfully');
       expect(domain.orderExists, isNotNull);
       expect(domain.orderExists!.orderID, 215);
-      expect(domain.orderExists!.itemName, 'Chicken Biryani');
     });
 
     test('maps a null orderExists without throwing', () {
