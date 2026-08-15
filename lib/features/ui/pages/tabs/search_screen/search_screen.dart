@@ -28,6 +28,7 @@ class SearchScreen extends StatelessWidget {
   }
 }
 
+/// test for ci cdggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
 class _SearchView extends StatefulWidget {
   const _SearchView();
 
