@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:restaurant_flutter_app/splash_screen/splash_screen.dart';
 
 import 'config/di.dart';
 import 'core/cache_save_data/lottie_animation_cache_manager.dart';
@@ -21,6 +22,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await configureDependencies();
   await LottieCacheManager().preloadAllNetwork([
+    'https://lottie.host/8a3ad046-498e-436d-b272-850ddd65de6e/Fa3sMSVlq8.json',
     'https://lottie.host/d159d4ea-169f-48a1-88bb-af502e352052/zdlEBqWjg2.json',
     "https://lottie.host/3bca594e-850c-4008-8f65-6e0b41324694/dOu9WiQ4xO.json",
     'https://lottie.host/6ab1889c-1f58-4818-9f8d-33c631f75315/wD5gMCkiFu.json',
@@ -41,8 +43,10 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           theme: AppTheme.light,
           debugShowCheckedModeBanner: false,
-          initialRoute: AppRoutes.loginScreen,
+          initialRoute: AppRoutes.splashScreen,
           routes: {
+            // Splash
+            AppRoutes.splashScreen: (context) => const SplashScreen(),
             // Auth
             AppRoutes.loginScreen: (context) => const LoginScreen(),
             AppRoutes.registerScreen: (context) => const RegisterScreen(),
