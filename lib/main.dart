@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'config/di.dart';
 import 'core/cache_save_data/lottie_animation_cache_manager.dart';
 import 'core/utlis/app_routes.dart';
+import 'core/utlis/app_theme.dart';
 import 'features/ui/login_screen/login_screen.dart';
 import 'features/ui/pages/cart_screen/cart_screen.dart';
 import 'features/ui/pages/cart_screen/widget/order_confirmation_screen.dart';
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, child) {
         return MaterialApp(
+          theme: AppTheme.light,
           debugShowCheckedModeBanner: false,
           initialRoute: AppRoutes.loginScreen,
           routes: {
