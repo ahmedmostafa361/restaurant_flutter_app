@@ -1,5 +1,6 @@
 class AppRoutes {
   // Auth Screens
+  static const String splashScreen = 'splash_Screenn';
   static const String loginScreen = 'login_screen';
   static const String registerScreen = 'register_screen';
 
