@@ -7,24 +7,47 @@
 
 A Flutter restaurant ordering app built with **Clean Architecture** and **MVVM**, backed by an automated test suite (mappers → data sources → repositories → use cases → view models) and a CI/CD pipeline running on every push.
 
-<!-- Add 3–4 screenshots or a short GIF here once available, e.g.:
 <p float="left">
-  <img src="docs/screenshots/home.png" width="200" />
-  <img src="docs/screenshots/restaurant_details.png" width="200" />
-  <img src="docs/screenshots/cart.png" width="200" />
+  <img src="docs/screenshots/splash_screen.png" width="180" />
+  <img src="docs/screenshots/login_screen.png" width="180" />
+  <img src="docs/screenshots/home_screen.png" width="180" />
+  <img src="docs/screenshots/menu_restaurant_screen.png" width="180" />
 </p>
--->
+<p float="left">
+  <img src="docs/screenshots/search_screen.png" width="180" />
+  <img src="docs/screenshots/search_screen_with_found_item.png" width="180" />
+  <img src="docs/screenshots/search_screen_with_failure_not_found.png" width="180" />
+  <img src="docs/screenshots/cart_screen.png" width="180" />
+</p>
+<p float="left">
+  <img src="docs/screenshots/order_screen_with_items.png" width="180" />
+  <img src="docs/screenshots/place_order_screen.png" width="180" />
+  <img src="docs/screenshots/place_order_screen2.png" width="180" />
+  <img src="docs/screenshots/details_order_screen.png" width="180" />
+</p>
+<p float="left">
+  <img src="docs/screenshots/empty_order_screens.png" width="180" />
+  <img src="docs/screenshots/profile_screen.png" width="180" />
+</p>
+
+<!-- Replace the images above with real screenshots before sharing this repo — create a docs/screenshots/ folder and drop 3-4 PNGs in: home feed, restaurant/menu detail, cart, order history. -->
 
 ---
 
 ## ✨ Features
 
 - **Browse restaurants** — home feed with categories and search
-- **Restaurant details & menu** — view items per restaurant
-- **Search** — find menu items across restaurants
+- **Restaurant details & menu** — view items per restaurant, sort by price
+- **Search** — find menu items across restaurants (debounced)
 - **Cart** — add, update, and remove items; place order
-- **Order history & details** — view past and in-progress orders
+- **Order history & details** — view past orders, delete single items or a whole order
 - **Auth** — login / register flow with secure token storage
+
+---
+
+## 🌐 Backend
+
+The app integrates with the [Fake Restaurant API](https://fakerestaurantapi.runasp.net) — a public mock REST API purpose-built for prototyping food-ordering apps. It provides restaurant/menu browsing, user registration and token-based auth, and full order CRUD (create, list, view details, delete single item or master order). Since it's a shared mock backend, some write operations (e.g. adding a restaurant or menu item) are echoed back but not persisted.
 
 ---
 
@@ -84,10 +107,11 @@ The project is tested layer by layer, mirroring the architecture above, using **
 | Layer | What's tested | Tooling |
 |---|---|---|
 | Mappers | DTO ⇄ domain field mapping, null/edge cases | `flutter_test` (pure, no mocks needed) |
+| Interceptors | DioException → domain exception translation (network/server/unexpected) | `flutter_test` (capturing `ErrorInterceptorHandler`) |
 | Remote data sources | Correct API calls, response handling | `mocktail` (mocking `Dio`/`ApiServices`) |
 | Repositories | Delegation to data sources, error propagation | `mocktail` |
 | Use cases | Business logic in isolation from repositories | `mocktail` |
-| Cubits (ViewModels) | State transitions (loading → success/error) | `bloc_test` + `mocktail` |
+| Cubits (ViewModels) | State transitions (loading → success/error), validation, debounced search | `bloc_test` + `mocktail` |
 
 **On the coverage badge:** it reports coverage for `api/`, `data/`, and `domain/` only — generated code (`*.g.dart`, `di.config.dart`, `gen/`), `main.dart`, and `features/ui/` are excluded from the metric (see CI config below). Cubits under `features/ui/**/cubit/` *are* tested with `bloc_test`, but since they live under `features/ui/`, they're filtered out of the coverage number too — the badge reflects business-logic coverage specifically, not overall test count.
 
@@ -103,6 +127,14 @@ With coverage:
 flutter test --coverage
 genhtml coverage/lcov.info -o coverage/html   # requires lcov
 ```
+
+---
+
+## ⚠️ Known Limitations
+
+- **Error type granularity is partially lost at the data source layer.** `DioInterceptors` correctly builds three distinct exception types (`NetworkErrorException`, `ServerErrorException`, `UnExpectedErrorException`) based on the failure mode, but the current remote data source implementations catch `DioException` and always rethrow as `ServerErrorException`, discarding that distinction before it reaches the UI. This is covered and documented by a dedicated test in the suite; fixing it (rethrowing `e.error` directly) is a planned follow-up.
+- **The backend is a shared public mock API**, so some write endpoints (adding restaurants/menu items) don't persist between requests — this is a constraint of the API, not the app.
+- **UI/widget tests are intentionally out of scope** for this project's test suite — the focus was on proving out the business logic layer (mappers → data sources → repositories → use cases → view models) rather than pixel-level UI verification.
 
 ---
 
@@ -175,6 +207,16 @@ This keeps the coverage number honest: it measures how well the actual business 
 
 ## 📄 License
 
-<!-- Confirm your intended license — MIT is assumed as a placeholder above and in the badge. Add a LICENSE file matching whichever you choose. -->
-
 This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 👤 Contact
+
+**Ahmed Mostafa Megahed**
+Flutter Developer | BLoC & Clean Architecture
+
+- GitHub: [@ahmedmostafa361](https://github.com/ahmedmostafa361)
+- LinkedIn: [ahmed-mostafa-041690375](https://linkedin.com/in/ahmed-mostafa-041690375)
+- TikTok: [@fixha_tech](https://www.tiktok.com/@fixha_tech)
+
