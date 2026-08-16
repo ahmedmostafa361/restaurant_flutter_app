@@ -7,28 +7,51 @@
 
 A Flutter restaurant ordering app built with **Clean Architecture** and **MVVM**, backed by an automated test suite (mappers → data sources → repositories → use cases → view models) and a CI/CD pipeline running on every push.
 
-<p float="left">
+## 📱 Screenshots
+
+<p align="center">
+  <img src="docs/screenshots/splash_screen.png" width="190" />
+  <img src="docs/screenshots/home_screen.png" width="190" />
+  <img src="docs/screenshots/menu_restaurant_screen.png" width="190" />
+  <img src="docs/screenshots/cart_screen.png" width="190" />
+  <img src="docs/screenshots/place_order_screen.png" width="190" />
+</p>
+
+<details>
+<summary><b>📸 See the full app tour (14 screens)</b></summary>
+<br>
+
+**Onboarding & Auth**
+<p align="center">
   <img src="docs/screenshots/splash_screen.png" width="180" />
   <img src="docs/screenshots/login_screen.png" width="180" />
+</p>
+
+**Browse & Search**
+<p align="center">
   <img src="docs/screenshots/home_screen.png" width="180" />
   <img src="docs/screenshots/menu_restaurant_screen.png" width="180" />
-</p>
-<p float="left">
   <img src="docs/screenshots/search_screen.png" width="180" />
   <img src="docs/screenshots/search_screen_with_found_item.png" width="180" />
   <img src="docs/screenshots/search_screen_with_failure_not_found.png" width="180" />
-  <img src="docs/screenshots/cart_screen.png" width="180" />
 </p>
-<p float="left">
+
+**Cart & Checkout**
+<p align="center">
+  <img src="docs/screenshots/cart_screen.png" width="180" />
   <img src="docs/screenshots/order_screen_with_items.png" width="180" />
   <img src="docs/screenshots/place_order_screen.png" width="180" />
   <img src="docs/screenshots/place_order_screen2.png" width="180" />
-  <img src="docs/screenshots/details_order_screen.png" width="180" />
 </p>
-<p float="left">
+
+**Orders & Profile**
+<p align="center">
+  <img src="docs/screenshots/details_order_screen.png" width="180" />
   <img src="docs/screenshots/empty_order_screens.png" width="180" />
   <img src="docs/screenshots/profile_screen.png" width="180" />
 </p>
+
+</details>
 
 <!-- Replace the images above with real screenshots before sharing this repo — create a docs/screenshots/ folder and drop 3-4 PNGs in: home feed, restaurant/menu detail, cart, order history. -->
 
