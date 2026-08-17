@@ -241,5 +241,5 @@ Flutter Developer | BLoC & Clean Architecture
 
 - GitHub: [@ahmedmostafa361](https://github.com/ahmedmostafa361)
 - LinkedIn: [ahmed-mostafa-041690375](https://linkedin.com/in/ahmed-mostafa-041690375)
-- TikTok: [@fixha_tech](https://www.tiktok.com/@fixha_tech)
+
 
